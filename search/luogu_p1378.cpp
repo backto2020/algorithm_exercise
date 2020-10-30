@@ -4,20 +4,16 @@
 using namespace std;
 
 int n;
-double le, re, de, ue;
+double xa, xb, ya, yb;
 double x[10], y[10], r[10];
 double mxocp;
 bool used[10];
 const double PI = 3.1415926535;
 
-void swp(double *a, double *b) {
-  double t = *a;
-  *a = *b;
-  *b = t;
-}
-
 double get_r(int i) {
-  double ans_r = min(min(x[i] - le, re - x[i]), min(y[i] - de, ue - y[i]));
+  double dx = min(abs(x[i] - xa), abs(xb - x[i]));
+  double dy = min(abs(y[i] - ya), abs(yb - y[i]));
+  double ans_r = min(dx, dy);
   for (int j = 1; j <= n; j++)
     if (i != j && used[j]) {
       double d =
@@ -42,11 +38,9 @@ void dfs(int i, double ocp) {
 }
 
 int main() {
-  cin >> n >> le >> de >> re >> ue;
-  if (le > re) swp(&le, &re);
-  if (de > ue) swp(&de, &re);
+  cin >> n >> xa >> ya >> xb >> yb;
   for (int i = 1; i <= n; i++) cin >> x[i] >> y[i];
   dfs(1, 0.0);
-  cout << int((ue - de) * (re - le) - mxocp + 0.5);
+  cout << int(abs(yb - ya) * abs(xb - xa) - mxocp + 0.5) << endl;
   return 0;
 }
